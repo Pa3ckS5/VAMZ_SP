@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SP_LogicGames</string>
+    <string name="menu">Menu</string>
+    <string name="game_info">Game Info</string>
+    <string name="mastermind">Mastermind\n</string>
+    <string name="back">Back</string>
 </resources>
