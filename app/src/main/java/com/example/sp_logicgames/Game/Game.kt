@@ -1,6 +1,7 @@
 package com.example.sp_logicgames.Game
 
 import androidx.compose.runtime.Composable
+import com.example.sp_logicgames.App.AppScreen
 
 abstract class Game {
 
@@ -9,4 +10,6 @@ abstract class Game {
     abstract fun endGame()
     abstract fun getImageId(): Int
     abstract fun getNameId(): Int
+
+    abstract fun navigate()
 }

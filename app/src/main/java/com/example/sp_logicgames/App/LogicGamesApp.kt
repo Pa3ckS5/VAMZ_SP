@@ -19,7 +19,7 @@ class LogicGamesApp {
 
         val navController = rememberNavController()
         NavHost(navController=navController,
-            startDestination = AppScreen.StartScreen.rout
+            startDestination = AppScreen.StartScreen.route
         ){
 
         }

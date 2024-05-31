@@ -26,9 +26,10 @@ fun NavHostUI(
             StartScreenUI(navController = navController)
         }
         composable(AppScreen.Menu.route){
-            MenuUI(navController = navController)
+            //MenuUI(navController = navController)
         }
-        composable(AppScreen.Mastermind.route)) {
-            MasterMindUI(navController = navController, backStackEntry=backStackEntry)
+        composable(AppScreen.Mastermind.route) {
+            //MasterMindUI(navController = navController, backStackEntry=backStackEntry)
         }
     }
+}

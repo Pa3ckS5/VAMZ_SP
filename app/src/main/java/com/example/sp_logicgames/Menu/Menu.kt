@@ -31,10 +31,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sp_logicgames.App.AppScreen
 import com.example.sp_logicgames.Game.Game
+import com.example.myapplication.theme.GameCard as GameCard1
 
 
 @Composable
@@ -44,39 +45,34 @@ fun MenuUI(
     games: List<Game>,
     modifier: Modifier = Modifier
 ){
-    var text by remember { mutableStateOf("")}
-        var active by remember { mutableStateOf(false)}
-        var pomocna = ""
-        var items = remember {
-            mutableStateListOf<String>()
-        }
+    var items = remember { mutableStateListOf<String>() }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
 
-            val listState = rememberLazyListState()
-            LazyColumn(state = listState, modifier = modifier.padding(vertical = 4.dp)) {
-                items.forEach() { game ->
-                    if (pomocna.isEmpty() || stringResource(affirmation.stringResourceId).contains(pomocna)) {
-                        Greeting(affirmation = affirmation, "ahoj", NavController)
-                    }
-                }
-
-
-            }
-            LaunchedEffect(key1 = pomocna) {
-                listState.scrollToItem(0)
-
+        val listState = rememberLazyListState()
+        LazyColumn(state = listState, modifier = modifier.padding(vertical = 4.dp)) {
+            games.forEach() { item ->
+                MenuCard(
+                    selected = currentRoute == item.route,
+                    onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
+                    },
+                    R.string(item.getNameId())
+                )
             }
         }
     }
+}
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Greeting(affirmation: Affirmation,name: String, navController: NavHostController,modifier: Modifier = Modifier) {
-    val gameName =stringResource(affirmation.stringResourceId)
-
+fun MenuCard(selected: String, onClick: ()-> Unit, name: String,  ) {
 
     Card(
 
@@ -85,63 +81,24 @@ fun Greeting(affirmation: Affirmation,name: String, navController: NavHostContro
         ),
 
         modifier = modifier
-            .clickable(onClick = { navController.navigate(AppScreen.Game.rout + "/$gameName") }) // Add clickable modifier here
+            .clickable(onClick = { navController.navigate(Screen.Recept.rout + "/$ahoj/$ahoj1/$ahoj2") }) // Add clickable modifier here
             .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         Column{
             Image(
-                painter = painterResource(affirmation.imageResourceId),
+                painter = painterResource(imageResourceId),
                 contentDescription = stringResource(affirmation.stringResourceId),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(194.dp),
                 contentScale = ContentScale.Crop
             )
-            CardContent(gameName)
-
-        }
-
-    }
-}
-
-
-//@Preview
-//@Composable
-//fun prevcomb(){
-//    val navController = rememberNavController()
-//    Greetings(affirmationList = Datasource().loadAffirmations(), NavController = navController)
-//}
-@Composable
-private fun CardContent(name: String) {
-    //var expanded by rememberSaveable { mutableStateOf(false) }
-
-    Row(
-        modifier = Modifier
-            .padding(12.dp)
-            .animateContentSize(
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                    stiffness = Spring.StiffnessLow
-                )
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(12.dp)
-        ) {
-            Text(text = "Score ")
             Text(
                 text = name, style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
-//            if (expanded) {
-//                Text(
-//                    text = ("Composem ipsum color sit lazy, " +
-//                            "padding theme elit, sed do bouncy. ").repeat(4),
-//                )
-//            }
+
         }
+
     }
-}
